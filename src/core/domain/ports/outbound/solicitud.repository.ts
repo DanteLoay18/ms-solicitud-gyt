@@ -1,4 +1,4 @@
-import { Solicitud } from "src/infraestructure/persistence/db/entities/solicitud.entity";
+import { Solicitud } from "../../entity/solicitud.entity";
 
 
 export interface SolicitudRepository{

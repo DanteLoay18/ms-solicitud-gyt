@@ -20,6 +20,9 @@ export class Solicitud extends Base{
     comentario:string;
 
     @Prop({type: Boolean})
+    esRevisado:boolean;
+
+    @Prop({type: Boolean})
     esAceptado:boolean;
 
     @Prop({type: String})

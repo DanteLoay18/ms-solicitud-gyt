@@ -1,6 +1,9 @@
 import { BadRequestException, Injectable  } from "@nestjs/common";
 import { Paginated } from "../utils/Paginated";
 import { SolicitudService } from "src/core/domain/services/solicitud.service";
+import { CreateSolicitudDto } from "src/core/shared/dtos/create-solicitud.dto";
+import { Solicitud } from "src/core/domain/entity/solicitud.entity";
+import { UpdateSolicitudDto } from "src/core/shared/dtos/update-solicitud.dto";
 
 @Injectable()
 export class SolicitudUseCase{
@@ -60,10 +63,111 @@ export class SolicitudUseCase{
         }
     }
 
-    
+    async createSolicitud(createSolicitudDto:CreateSolicitudDto, usuarioCreacion:string){
+        try {
 
+            const tipoSolicitudEncontrada = await this.findOneByTerm("tipoSolicitud", createSolicitudDto.tipoSolicitud, "", createSolicitudDto.escuela);
+
+            if(tipoSolicitudEncontrada)
+                return {
+                    success:false,
+                    message:"Este tipo de solicitud ya se encuentra registrada y esta pendiente de revision"
+                }
+
+            const solicitud = Solicitud.CreateSolicitud(createSolicitudDto,usuarioCreacion);
+           
+            const solicitudCreado= await this.solicitudService.createSolcitiud(solicitud);
+
+            if(!solicitudCreado)
+                return {
+                    success:false,
+                    message:"El solicitud no se pudo registrar correctamente"
+                }
+
+            return {
+                success:true,
+                message:"El solicitud se creo correctamente"
+            }
+        } catch (error) {
+            this.handleExceptions(error)
+        }
+    }
+
+    async updateSolicitud(updateSolicitudDto:UpdateSolicitudDto, usuarioCreacion:string){
+        try {
+
+            const solicitudEncontrada = await this.getSolicitudById(updateSolicitudDto.idSolicitud);
+
+            if(!solicitudEncontrada.success)
+            return {
+                success:solicitudEncontrada.success,
+                message: solicitudEncontrada.message
+            }
+
+            if(solicitudEncontrada.value?.['esRevisado'])
+            return {
+                success:false,
+                message:"La solicitud ya fue revisada no se puede realizar ningun cambio."
+            }     
+
+            const solicitud = Solicitud.UpdateSolicitud(updateSolicitudDto,usuarioCreacion);
+           
+            const solicitudCreado= await this.solicitudService.updateSolcitiud(updateSolicitudDto.idSolicitud,solicitud);
+
+            if(!solicitudCreado)
+                return {
+                    success:false,
+                    message:"El solicitud no se pudo registrar correctamente"
+                }
+
+            return {
+                success:true,
+                message:"El solicitud se creo correctamente"
+            }
+        } catch (error) {
+            this.handleExceptions(error)
+        }
+    }
+
+    async eliminarSolicitud(idSolicitud:string, usuarioModificacion:string){
+        const solicitudEncontrada = await this.getSolicitudById(idSolicitud);
+
+        if(!solicitudEncontrada.success)
+        return {
+            success:solicitudEncontrada.success,
+            message: solicitudEncontrada.message
+        }
+
+        if(solicitudEncontrada.value?.['esRevisado'])
+        return {
+            success:false,
+            message:"La solicitud ya fue revisada no se puede eliminar."
+        }    
+
+        const solicitud = Solicitud.EliminarSolicitud(usuarioModificacion);
+           
+        const solicitudEliminada= await this.solicitudService.updateSolcitiud(idSolicitud,solicitud);
+
+        if(!solicitudEliminada)
+            return {
+                success:false,
+                message:"La solicitud no se pudo eliminar"
+            }
+
+        return {
+            success:true,
+            message:"La solicitud se elimino correctamente"
+        }
+    }
    
-
+    async findOneByTerm(term:string, valor:string | number, idSolicitud:string, expediente:string){
+        let solicitudes= await this.solicitudService.findByterm(term, valor);
+        console.log(solicitudes)
+        const solicitudEncontradoPorExpediente= solicitudes.find((solcitud)=>solcitud.expediente===expediente && solcitud._id!==idSolicitud && (solcitud.esAceptado || solcitud.esRevisado) );
+      
+        return solicitudEncontradoPorExpediente;
+       
+    }
 
    
     async bloquearDocente(id:string, esBloqueado:boolean){
