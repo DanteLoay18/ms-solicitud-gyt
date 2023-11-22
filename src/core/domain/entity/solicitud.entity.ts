@@ -12,7 +12,7 @@ export class Solicitud extends Base{
     esRevisado:boolean;
     esAceptado:boolean;
     documento:string;
-
+    nombreArchivo: string;
 
     static CreateSolicitud( createSolicitudDto:CreateSolicitudDto, usuarioCreacion:string){
         const solicitud= new Solicitud();
@@ -22,6 +22,7 @@ export class Solicitud extends Base{
         solicitud.facultad=createSolicitudDto.facultad;
         solicitud.comentario=createSolicitudDto.comentario;
         solicitud.documento=createSolicitudDto.documento;
+        solicitud.nombreArchivo=createSolicitudDto.nombreArchivo;
         solicitud.esRevisado=false;
         solicitud.fechaCreacion=new Date();
         solicitud.usuarioCreacion=usuarioCreacion;
@@ -30,14 +31,15 @@ export class Solicitud extends Base{
         return solicitud;
     }
 
-    static UpdateSolicitud( updateolicitudDto:UpdateSolicitudDto, usuarioModificacion:string){
+    static UpdateSolicitud( updateSolicitudDto:UpdateSolicitudDto, usuarioModificacion:string){
         const solicitud= new Solicitud();
-        solicitud.expediente=updateolicitudDto.expediente;
-        solicitud.tipoSolicitud=updateolicitudDto.tipoSolicitud;
-        solicitud.escuela=updateolicitudDto.escuela;
-        solicitud.facultad=updateolicitudDto.facultad;
-        solicitud.comentario=updateolicitudDto.comentario;
-        solicitud.documento=updateolicitudDto.documento;
+        solicitud.expediente=updateSolicitudDto.expediente;
+        solicitud.tipoSolicitud=updateSolicitudDto.tipoSolicitud;
+        solicitud.escuela=updateSolicitudDto.escuela;
+        solicitud.facultad=updateSolicitudDto.facultad;
+        solicitud.comentario=updateSolicitudDto.comentario;
+        solicitud.documento=updateSolicitudDto.documento;
+        solicitud.nombreArchivo=updateSolicitudDto.nombreArchivo;
         solicitud.fechaModificacion=new Date();
         solicitud.usuarioModificacion=usuarioModificacion;
         return solicitud;

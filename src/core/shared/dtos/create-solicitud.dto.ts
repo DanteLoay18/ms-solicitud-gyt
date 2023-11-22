@@ -7,4 +7,5 @@ export class CreateSolicitudDto{
     facultad:string;
     comentario: string;
     documento: string;
+    nombreArchivo:string;
 }

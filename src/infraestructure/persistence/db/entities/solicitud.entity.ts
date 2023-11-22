@@ -28,6 +28,9 @@ export class Solicitud extends Base{
     @Prop({type: String})
     documento:string;
 
+    @Prop({type: String})
+    nombreArchivo:string;
+
 }
 
 export const SolicitudSchema= SchemaFactory.createForClass(Solicitud);

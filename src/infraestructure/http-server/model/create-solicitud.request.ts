@@ -6,5 +6,7 @@ export class CreateSolicitudRequest{
     facultad:string;
     comentario: string;
     documento: string;
+    nombreArchivo:string;
     idUsuario:string;
+    
 }
