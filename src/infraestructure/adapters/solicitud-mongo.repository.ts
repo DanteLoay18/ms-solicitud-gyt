@@ -15,7 +15,7 @@ export class MongoSolicitudRepository implements SolicitudRepository {
     }
 
     findByTerm(termino:string, valor:string | number):Promise<Solicitud[]>{
-        return this.solicitudRepository.find({[termino]:valor})
+        return this.solicitudRepository.find({[termino]:valor, esEliminado:false})
     }
 
     createSolicitud(Solicitud: Solicitud){

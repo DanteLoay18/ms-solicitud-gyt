@@ -66,7 +66,7 @@ export class SolicitudUseCase{
     async createSolicitud(createSolicitudDto:CreateSolicitudDto, usuarioCreacion:string){
         try {
 
-            const tipoSolicitudEncontrada = await this.findOneByTerm("tipoSolicitud", createSolicitudDto.tipoSolicitud, "", createSolicitudDto.escuela);
+            const tipoSolicitudEncontrada = await this.findOneByTerm("tipoSolicitud", createSolicitudDto.tipoSolicitud, "", createSolicitudDto.expediente);
 
             if(tipoSolicitudEncontrada)
                 return {
@@ -162,8 +162,15 @@ export class SolicitudUseCase{
    
     async findOneByTerm(term:string, valor:string | number, idSolicitud:string, expediente:string){
         let solicitudes= await this.solicitudService.findByterm(term, valor);
-        console.log(solicitudes)
-        const solicitudEncontradoPorExpediente= solicitudes.find((solcitud)=>solcitud.expediente===expediente && solcitud._id!==idSolicitud && (solcitud.esAceptado || solcitud.esRevisado) );
+
+        const solicitudEncontradoPorExpediente= solicitudes.filter((solicitud)=>solicitud.expediente===expediente && solicitud._id!==idSolicitud).find((solicitud)=>{
+
+            if((solicitud.esAceptado && solicitud.esRevisado) || !solicitud.esRevisado){
+                return solicitud;
+            }
+
+            return null;
+        });
       
         return solicitudEncontradoPorExpediente;
        
