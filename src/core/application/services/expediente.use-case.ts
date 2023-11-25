@@ -81,12 +81,12 @@ export class SolicitudUseCase{
             if(!solicitudCreado)
                 return {
                     success:false,
-                    message:"El solicitud no se pudo registrar correctamente"
+                    message:"La solicitud no se pudo registrar correctamente"
                 }
 
             return {
                 success:true,
-                message:"El solicitud se creo correctamente"
+                message:"La solicitud se creo correctamente"
             }
         } catch (error) {
             this.handleExceptions(error)
@@ -117,12 +117,12 @@ export class SolicitudUseCase{
             if(!solicitudCreado)
                 return {
                     success:false,
-                    message:"El solicitud no se pudo registrar correctamente"
+                    message:"La solicitud no se pudo modificar correctamente"
                 }
 
             return {
                 success:true,
-                message:"El solicitud se creo correctamente"
+                message:"La solicitud se modifico correctamente"
             }
         } catch (error) {
             this.handleExceptions(error)
