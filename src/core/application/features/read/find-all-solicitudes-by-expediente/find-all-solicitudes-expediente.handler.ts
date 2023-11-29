@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { FindAllSolicitudesByExpedienteQuery } from "./find-all-solicitudes-expediente.query";
-import { SolicitudUseCase } from "src/core/application/services/expediente.use-case";
+import { SolicitudUseCase } from "src/core/application/services/solicitud.use-case";
 
 @QueryHandler(FindAllSolicitudesByExpedienteQuery)
 export class FindAllSolicitudesByExpedienteHandler implements IQueryHandler<FindAllSolicitudesByExpedienteQuery>{

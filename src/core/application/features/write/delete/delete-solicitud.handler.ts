@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { SolicitudUseCase } from "src/core/application/services/expediente.use-case";
+import { SolicitudUseCase } from "src/core/application/services/solicitud.use-case";
 import { DeleteSolicitudCommand } from "./delete-solicitud.command";
 
 @CommandHandler(DeleteSolicitudCommand)
