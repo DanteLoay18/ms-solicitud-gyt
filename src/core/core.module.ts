@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { AdaptersModule, SOLICITUD_REPOSITORY } from 'src/infraestructure/adapters/adapters.module';
 import { PersistenceModule } from 'src/infraestructure/persistence/persistence.module';
-import { FindAllSolicitudesByExpedienteHandler, FindAllSolicitudesByExpedienteQuery, FindByIdHandler, FindByIdQuery } from './application/features/read';
+import { FindAllSolicitudesByExpedienteHandler, FindAllSolicitudesByExpedienteQuery, FindAllSolicitudesNoRevisadoHandler, FindAllSolicitudesNoRevisadoQuery, FindByIdHandler, FindByIdQuery } from './application/features/read';
 import { SolicitudService } from './domain/services/solicitud.service';
 import { SolicitudRepository } from './domain/ports/outbound/solicitud.repository';
 import { SolicitudUseCase } from './application/services/solicitud.use-case';
@@ -11,6 +11,8 @@ import { CambiarEstadoCommand, CambiarEstadoHandler, CreateSolicitudCommand, Cre
 const SOLICITUD_PROVIDERS=[
     FindAllSolicitudesByExpedienteQuery,
     FindAllSolicitudesByExpedienteHandler,
+    FindAllSolicitudesNoRevisadoQuery,
+    FindAllSolicitudesNoRevisadoHandler,
     FindByIdQuery,
     FindByIdHandler,
     CreateSolicitudCommand,

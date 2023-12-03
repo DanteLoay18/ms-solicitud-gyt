@@ -2,12 +2,13 @@ import { Controller } from '@nestjs/common';
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { MessagePattern } from '@nestjs/microservices';
 import { FindAllSolicitudesByExpedienteRequest } from '../model/find-all-solicitudes.request';
-import { FindAllSolicitudesByExpedienteQuery, FindByIdQuery } from 'src/core/application/features/read';
+import { FindAllSolicitudesByExpedienteQuery, FindAllSolicitudesNoRevisadoQuery, FindByIdQuery } from 'src/core/application/features/read';
 import { CreateSolicitudRequest } from '../model/create-solicitud.request';
 import { CambiarEstadoCommand, CreateSolicitudCommand, DeleteSolicitudCommand, UpdateSolicitudCommand } from 'src/core/application/features/write';
 import { UpdateSolicitudRequest } from '../model/update-solicitud.request';
 import { DeleteSolicitudRequest } from '../model/delete-solicitud.request';
 import { CambiarEstadoRequest } from '../model/cambiar-estado-solicitud.request';
+import { FindAllSolicitudesNoRevisadoRequest } from '../model/find-all-solicitudes-no-revisado.request';
 
 
 @Controller()
@@ -19,9 +20,16 @@ export class SolicitudController{
     ) {}
     
     @MessagePattern({cmd: 'findAll_solicitudes'})
-    async findAllDocentes({page, pageSize, idExpediente}:FindAllSolicitudesByExpedienteRequest) {
+    async findAllSolicitudesByExpediente({page, pageSize, idExpediente}:FindAllSolicitudesByExpedienteRequest) {
 
         return await this.query.execute(new FindAllSolicitudesByExpedienteQuery(page,pageSize,idExpediente));
+        
+    }
+
+    @MessagePattern({cmd: 'findAll_solicitudes_no_revisado'})
+    async findAllSolicitudesNoRevisado({page, pageSize, idFacultad}:FindAllSolicitudesNoRevisadoRequest) {
+
+        return await this.query.execute(new FindAllSolicitudesNoRevisadoQuery(page,pageSize,idFacultad));
         
     }
 

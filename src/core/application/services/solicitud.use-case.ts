@@ -33,6 +33,36 @@ export class SolicitudUseCase{
         
     }
 
+    async getAllSolicitudesNoRevisado(page:number, pageSize:number, idFacultad:string){
+        try{
+            let solicitudes= await this.solicitudService.findAll();
+
+            solicitudes= solicitudes.filter(({facultad, esRevisado})=>facultad===idFacultad && !esRevisado)
+            const startIndex = (page - 1 )*pageSize;
+            const endIndex = startIndex + pageSize;
+
+            if(solicitudes.length === 0 && page !==1){
+                const startIndex = (page - 2 )*pageSize;
+                const endIndex = startIndex + pageSize;
+                return {
+                    page:page-1,
+                    pageSize:pageSize,
+                    items: solicitudes.slice(startIndex,endIndex),
+                    total: solicitudes.length
+                }
+            }
+            return Paginated.create({
+                page,
+                pageSize,
+                items: solicitudes.slice(startIndex,endIndex),
+                total: solicitudes.length
+            });       
+
+        }catch(error){
+            this.handleExceptions(error)
+        }
+    }
+
    
     async getAllSolicitudesByExpediente(page:number, pageSize:number, idExpediente:string){
         try{
