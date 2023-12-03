@@ -4,9 +4,10 @@ import { MessagePattern } from '@nestjs/microservices';
 import { FindAllSolicitudesByExpedienteRequest } from '../model/find-all-solicitudes.request';
 import { FindAllSolicitudesByExpedienteQuery, FindByIdQuery } from 'src/core/application/features/read';
 import { CreateSolicitudRequest } from '../model/create-solicitud.request';
-import { CreateSolicitudCommand, DeleteSolicitudCommand, UpdateSolicitudCommand } from 'src/core/application/features/write';
+import { CambiarEstadoCommand, CreateSolicitudCommand, DeleteSolicitudCommand, UpdateSolicitudCommand } from 'src/core/application/features/write';
 import { UpdateSolicitudRequest } from '../model/update-solicitud.request';
 import { DeleteSolicitudRequest } from '../model/delete-solicitud.request';
+import { CambiarEstadoRequest } from '../model/cambiar-estado-solicitud.request';
 
 
 @Controller()
@@ -42,6 +43,13 @@ export class SolicitudController{
     async updateSolicitud({idUsuario,...updateSolicitudRequest}:UpdateSolicitudRequest) {
 
         return await this.command.execute(new UpdateSolicitudCommand(updateSolicitudRequest, idUsuario));
+        
+    }
+
+    @MessagePattern({cmd: 'cambiar_estado_solicitud'})
+    async cambiarEstadoSolicitud({idUsuario,...cambiarEstadoRequest}:CambiarEstadoRequest) {
+
+        return await this.command.execute(new CambiarEstadoCommand(cambiarEstadoRequest, idUsuario));
         
     }
 

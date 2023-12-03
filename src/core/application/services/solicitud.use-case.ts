@@ -4,6 +4,7 @@ import { SolicitudService } from "src/core/domain/services/solicitud.service";
 import { CreateSolicitudDto } from "src/core/shared/dtos/create-solicitud.dto";
 import { Solicitud } from "src/core/domain/entity/solicitud.entity";
 import { UpdateSolicitudDto } from "src/core/shared/dtos/update-solicitud.dto";
+import { CambiarEstadoSolicitudDto } from "src/core/shared/dtos/cambiar-estado-solicitud.dto";
 
 @Injectable()
 export class SolicitudUseCase{
@@ -93,7 +94,7 @@ export class SolicitudUseCase{
         }
     }
 
-    async updateSolicitud(updateSolicitudDto:UpdateSolicitudDto, usuarioCreacion:string){
+    async updateSolicitud(updateSolicitudDto:UpdateSolicitudDto, usuarioModificacion:string){
         try {
 
             const solicitudEncontrada = await this.getSolicitudById(updateSolicitudDto.idSolicitud);
@@ -110,7 +111,7 @@ export class SolicitudUseCase{
                 message:"La solicitud ya fue revisada no se puede realizar ningun cambio."
             }     
 
-            const solicitud = Solicitud.UpdateSolicitud(updateSolicitudDto,usuarioCreacion);
+            const solicitud = Solicitud.UpdateSolicitud(updateSolicitudDto,usuarioModificacion);
            
             const solicitudCreado= await this.solicitudService.updateSolcitiud(updateSolicitudDto.idSolicitud,solicitud);
 
@@ -128,6 +129,43 @@ export class SolicitudUseCase{
             this.handleExceptions(error)
         }
     }
+
+    async cambiarEstadoSolicitud(cambiarEstadoSolicitudDto:CambiarEstadoSolicitudDto, usuarioModificacion:string){
+        try {
+
+            const solicitudEncontrada = await this.getSolicitudById(cambiarEstadoSolicitudDto.idSolicitud);
+
+            if(!solicitudEncontrada.success)
+            return {
+                success:solicitudEncontrada.success,
+                message: solicitudEncontrada.message
+            }
+
+            if(solicitudEncontrada.value?.['esRevisado'])
+            return {
+                success:false,
+                message:"La solicitud ya fue revisada no se puede realizar ningun cambio."
+            }     
+
+            const solicitud = Solicitud.CambiarEstadoSolicitud(cambiarEstadoSolicitudDto.esAceptado, cambiarEstadoSolicitudDto.comentario,usuarioModificacion);
+           
+            const solicitudModificado= await this.solicitudService.updateSolcitiud(cambiarEstadoSolicitudDto.idSolicitud,solicitud);
+
+            if(!solicitudModificado)
+                return {
+                    success:false,
+                    message:"La solicitud no se pudo modificar correctamente"
+                }
+
+            return {
+                success:true,
+                message:"La solicitud se modifico correctamente"
+            }
+        } catch (error) {
+            this.handleExceptions(error)
+        }
+    }
+
 
     async eliminarSolicitud(idSolicitud:string, usuarioModificacion:string){
         const solicitudEncontrada = await this.getSolicitudById(idSolicitud);

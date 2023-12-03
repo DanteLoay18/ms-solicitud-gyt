@@ -6,7 +6,7 @@ import { FindAllSolicitudesByExpedienteHandler, FindAllSolicitudesByExpedienteQu
 import { SolicitudService } from './domain/services/solicitud.service';
 import { SolicitudRepository } from './domain/ports/outbound/solicitud.repository';
 import { SolicitudUseCase } from './application/services/solicitud.use-case';
-import { CreateSolicitudCommand, CreateSolicitudHandler, DeleteSolicitudCommand, DeleteSolicitudHandler, UpdateSolicitudCommand, UpdateSolicitudHandler } from './application/features/write';
+import { CambiarEstadoCommand, CambiarEstadoHandler, CreateSolicitudCommand, CreateSolicitudHandler, DeleteSolicitudCommand, DeleteSolicitudHandler, UpdateSolicitudCommand, UpdateSolicitudHandler } from './application/features/write';
 
 const SOLICITUD_PROVIDERS=[
     FindAllSolicitudesByExpedienteQuery,
@@ -18,7 +18,9 @@ const SOLICITUD_PROVIDERS=[
     UpdateSolicitudCommand,
     UpdateSolicitudHandler,
     DeleteSolicitudCommand,
-    DeleteSolicitudHandler
+    DeleteSolicitudHandler,
+    CambiarEstadoCommand,
+    CambiarEstadoHandler
 ]
 
 const providers = [

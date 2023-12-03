@@ -45,6 +45,16 @@ export class Solicitud extends Base{
         return solicitud;
     }
 
+    static CambiarEstadoSolicitud( esAceptado:boolean, comentario:string, usuarioModificacion:string){
+        const solicitud= new Solicitud();
+        solicitud.esRevisado=true;
+        solicitud.esAceptado=esAceptado;
+        solicitud.comentario=comentario;
+        solicitud.fechaModificacion=new Date();
+        solicitud.usuarioModificacion=usuarioModificacion;
+        return solicitud;
+    }
+
     static EliminarSolicitud(usuarioModificacion:string){
         const solicitud= new Solicitud();
         solicitud.esEliminado=true;
