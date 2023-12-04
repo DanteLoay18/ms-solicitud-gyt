@@ -1,6 +1,6 @@
 export class CambiarEstadoRequest{
     idUsuario:string;
     idSolicitud:string;
-    comentario:string;
+    observacion:string;
     esAceptado:boolean;
 }

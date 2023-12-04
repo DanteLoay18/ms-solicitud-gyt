@@ -177,7 +177,7 @@ export class SolicitudUseCase{
                 message:"La solicitud ya fue revisada no se puede realizar ningun cambio."
             }     
 
-            const solicitud = Solicitud.CambiarEstadoSolicitud(cambiarEstadoSolicitudDto.esAceptado, cambiarEstadoSolicitudDto.comentario,usuarioModificacion);
+            const solicitud = Solicitud.CambiarEstadoSolicitud(cambiarEstadoSolicitudDto.esAceptado, cambiarEstadoSolicitudDto.observacion,usuarioModificacion);
            
             const solicitudModificado= await this.solicitudService.updateSolcitiud(cambiarEstadoSolicitudDto.idSolicitud,solicitud);
 

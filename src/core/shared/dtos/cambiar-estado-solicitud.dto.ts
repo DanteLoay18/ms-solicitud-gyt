@@ -1,5 +1,5 @@
 export class CambiarEstadoSolicitudDto{
     idSolicitud:string;
-    comentario:string;
+    observacion:string;
     esAceptado:boolean;
 }

@@ -9,6 +9,7 @@ export class Solicitud extends Base{
     escuela:string;
     facultad:string;
     comentario:string;
+    observacion:string;
     esRevisado:boolean;
     esAceptado:boolean;
     documento:string;
@@ -45,11 +46,11 @@ export class Solicitud extends Base{
         return solicitud;
     }
 
-    static CambiarEstadoSolicitud( esAceptado:boolean, comentario:string, usuarioModificacion:string){
+    static CambiarEstadoSolicitud( esAceptado:boolean, observacion:string, usuarioModificacion:string){
         const solicitud= new Solicitud();
         solicitud.esRevisado=true;
         solicitud.esAceptado=esAceptado;
-        solicitud.comentario=comentario;
+        solicitud.observacion=observacion;
         solicitud.fechaModificacion=new Date();
         solicitud.usuarioModificacion=usuarioModificacion;
         return solicitud;
