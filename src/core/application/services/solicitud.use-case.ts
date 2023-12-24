@@ -36,7 +36,7 @@ export class SolicitudUseCase{
     async getAllSolicitudesNoRevisado(page:number, pageSize:number, idFacultad:string){
         try{
             let solicitudes= await this.solicitudService.findAll();
-
+            
             solicitudes= solicitudes.filter(({facultad, esRevisado})=>facultad===idFacultad && !esRevisado)
             const startIndex = (page - 1 )*pageSize;
             const endIndex = startIndex + pageSize;
